@@ -62,5 +62,6 @@ const getSingleProductFromDB = async(req:Request,res:Response)=>{
  
 export const productController = {
   productCreate,
-  getAllProduct
+  getAllProduct,
+  getSingleProductFromDB
 };
