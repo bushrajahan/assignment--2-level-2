@@ -9,7 +9,7 @@ const objectIdValidator = Joi.string().custom((value, helpers) => {
 }, 'ObjectId validation');
 
 export const emailSchema = Joi.object({
-  email: Joi.string().email().required()
+  email: Joi.string().email().required(),
 });
 
 export const orderSchema = Joi.object({

@@ -10,16 +10,16 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
-// Application routes 
+// Application routes
 app.use('/api/v1', productRoute);
-app.use('/api/orders',OrderRouter)
+app.use('/api/orders', OrderRouter);
 
-app.use((req,res,next)=>{
+app.use((req, res) => {
   res.status(404).json({
-    success:false,
-    message:'Route not found'
-  })
-})
+    success: false,
+    message: 'Route not found',
+  });
+});
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello World!');

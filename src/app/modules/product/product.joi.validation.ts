@@ -2,16 +2,16 @@ import Joi from 'joi';
 
 export const variantSchema = Joi.object({
   type: Joi.string().required(),
-  value: Joi.string().required()
+  value: Joi.string().required(),
 });
 
 export const inventorySchema = Joi.object({
   quantity: Joi.number().required(),
-  inStock: Joi.boolean().required() // Fix: `inStock` should match the field in your Mongoose schema
+  inStock: Joi.boolean().required(), // Fix: `inStock` should match the field in your Mongoose schema
 });
 
 export const productIdSchema = Joi.object({
-  productId: Joi.string().required().hex().length(24)
+  productId: Joi.string().required().hex().length(24),
 });
 
 export const searchTermSchema = Joi.object({

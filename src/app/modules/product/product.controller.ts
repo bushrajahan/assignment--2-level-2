@@ -1,69 +1,71 @@
-import { CommandSucceededEvent } from "mongodb";
-import { productService } from "./product.service";
-import { Request, Response } from "express";
-import { ProductModel } from "../product.model";
-import { console } from "inspector";
-import { productIdSchema, productSchema, searchTermSchema } from "./product.joi.validation";
+import { productService } from './product.service';
+import { Request, Response } from 'express';
+
+import { console } from 'inspector';
+import {
+  productIdSchema,
+  productSchema,
+  searchTermSchema,
+} from './product.joi.validation';
 
 const productCreate = async (req: Request, res: Response) => {
   try {
     const productData = req.body; // Use req.body directly
-    const {error,value} = productSchema.validate(productData)
-    if(error){
+    const { error } = productSchema.validate(productData);
+    if (error) {
       return res.status(400).json({
-        success:false,
-        message:'validatio error',
-        data:error
-      })
+        success: false,
+        message: 'validatio error',
+        data: error,
+      });
     }
-  //if validate tha proceed with creatig product
+    //if validate tha proceed with creatig product
     const result = await productService.createProductFromDB(productData);
     res.status(201).json({
       success: true,
-      message:'product  created successfully',
+      message: 'product  created successfully',
       data: result,
     });
   } catch (err) {
     console.error(err);
     res.status(500).json({
       success: false,
-      message: "Server Error",
-      data:err
+      message: 'Server Error',
+      data: err,
     });
   }
 };
-const getAllProduct = async(req:Request,res:Response)=>{
-  try{
+const getAllProduct = async (req: Request, res: Response) => {
+  try {
     const result = await productService.getProductfromDB();
     res.status(200).json({
-      success:true,
-      message:'Product fetched  successfully',
-      data:result
-    })
-  }
-  catch(err){
+      success: true,
+      message: 'Product fetched  successfully',
+      data: result,
+    });
+  } catch (err) {
     console.log(err);
     res.status(500).json({
-      success:false,
-      message:'server error',
-      result:err
-    })
+      success: false,
+      message: 'server error',
+      result: err,
+    });
   }
-}
+};
 
-//getsingledata 
+//getsingledata
 const getSingleProduct = async (req: Request, res: Response) => {
   try {
-    const{error,value} = productIdSchema.validate(req.params);
-    if(error){
+    const { error } = productIdSchema.validate(req.params);
+    if (error) {
       return res.status(400).json({
-        success:false,
-        message:'Invalid product ID',
-        result:error
-      })
+        success: false,
+        message: 'Invalid product ID',
+        result: error,
+      });
     }
     const { productId } = req.params;
-   
+
     console.log('Product ID:', productId);
 
     const result = await productService.getSingleProductFromDB(productId);
@@ -82,7 +84,7 @@ const getSingleProduct = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (err) {
-    console.error('Error fetching product:', err);  // Use console.error for errors
+    console.error('Error fetching product:', err); // Use console.error for errors
     res.status(500).json({
       success: false,
       message: 'Server error',
@@ -91,94 +93,98 @@ const getSingleProduct = async (req: Request, res: Response) => {
 };
 
 const updateProduct = async (req: Request, res: Response) => {
-  try {  
- const {error,value} = productSchema.validate(req.body);
+  try {
+    const { error } = productSchema.validate(req.body);
 
-  if(error){
-    return res.status(400).json({
-      success:false,
-      message:'error validation',
-      result:error
-      
-    })
-  }
-   
+    if (error) {
+      return res.status(400).json({
+        success: false,
+        message: 'error validation',
+        result: error,
+      });
+    }
+
     const { productId } = req.params;
-   
+
     const productData = req.body;
 
- 
     console.log(`Updating product ${productId} with data:`, productData); // Log the update details
 
-    const updatedProduct = await productService.updateProductInDB(productId, productData);
+    const updatedProduct = await productService.updateProductInDB(
+      productId,
+      productData,
+    );
 
     if (!updatedProduct) {
       return res.status(404).json({
         success: false,
-        message: "Product not found",
+        message: 'Product not found',
       });
     }
 
     res.status(200).json({
       success: true,
-      message: "Product updated successfully",
+      message: 'Product updated successfully',
       result: updatedProduct,
     });
   } catch (err) {
     console.log(err);
     res.status(500).json({
       success: false,
-      message: "Server error",
+      message: 'Server error',
     });
   }
 };
 
- const deleteProduct = async(req:Request,res:Response)=>{
-  
-  try{
-    const {error} = productIdSchema.validate(req.params);
-    if(error){
+const deleteProduct = async (req: Request, res: Response) => {
+  try {
+    const { error } = productIdSchema.validate(req.params);
+    if (error) {
       return res.status(400).json({
-        success:false,
-        message:'Invalid product Id',
-        data:error
-      })
+        success: false,
+        message: 'Invalid product Id',
+        data: error,
+      });
     }
     const productId = req.params.productId;
     const deletedProduct = await productService.deleteProductFromDB(productId);
-    if(!deleteProduct){
+    if (!deletedProduct) {
       res.status(400).json({
-        success:false,
-        message:'product is not found',
-
-      })
+        success: false,
+        message: 'product is not found',
+      });
     }
     return res.status(200).json({
-      success:true,
-      message:'product is deleted successfully',
-      data:null
-    })
-
-  }
-  catch(err){
+      success: true,
+      message: 'product is deleted successfully',
+      data: null,
+    });
+  } catch (err) {
     console.log(err);
     res.status(500).json({
-      suceess:false,
-      message:'product is failed to delete',
-      result:err
-      
-    })
+      suceess: false,
+      message: 'product is failed to delete',
+      result: err,
+    });
   }
- }
- const searchProduct = async (req: Request, res: Response) => {
+};
+const searchProduct = async (req: Request, res: Response) => {
   try {
-    const {error} = searchTermSchema.validate(req.query)
+    const { error } = searchTermSchema.validate(req.query);
+    if (error) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid product Id',
+        data: error,
+      });
+    }
+
     const searchTerm = req.query.searchTerm as string;
 
     if (!searchTerm) {
       return res.status(400).json({
         success: false,
-        message: 'Search term is required'
+        message: 'Search term is required',
       });
     }
 
@@ -187,9 +193,8 @@ const updateProduct = async (req: Request, res: Response) => {
     return res.status(200).json({
       success: true,
       message: 'Product(s) found successfully',
-      result: products
+      result: products,
     });
-
   } catch (err) {
     // Log full error details for debugging
     console.error('Error during product search:', err);
@@ -197,11 +202,10 @@ const updateProduct = async (req: Request, res: Response) => {
     return res.status(500).json({
       success: false,
       message: 'Server error',
-      error: err.message || 'Something went wrong' // Return detailed error message
+      error: err.message || 'Something went wrong', // Return detailed error message
     });
   }
-}
-
+};
 
 export const productController = {
   productCreate,
@@ -209,5 +213,5 @@ export const productController = {
   getSingleProduct,
   updateProduct,
   deleteProduct,
-  searchProduct
+  searchProduct,
 };
