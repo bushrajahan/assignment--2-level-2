@@ -9,6 +9,7 @@ export interface Inventory {
 }
 
 export interface Product {
+  id:number;
   name: string; // Product name
   description: string; // Product description
   price: number; // Product price

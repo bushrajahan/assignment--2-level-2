@@ -3,6 +3,7 @@ import { Inventory, Product, Variant } from './product/product.interface';
 
 
 const variantSchema = new Schema<Variant>({
+  
   type: {
     type: String,
     required: true,
@@ -25,6 +26,7 @@ const inventorySchema = new Schema<Inventory>({
 });
 
 const productSchema = new Schema<Product>({
+ 
   name: {
     type: String,
     required: true,
