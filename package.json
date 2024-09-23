@@ -29,7 +29,8 @@
     "lint": "npx eslint .",
     "lint:fix": "npx eslint . --fix",
     "format": "prettier --ignore-path .gitignore --write \"./src**/*.+(js|ts|json)\"",
-    "prettier:fix": "npx prettier --write src"
+    "prettier:fix": "npx prettier --write src",
+    "build":"tsc"
   },
   "keywords": [],
   "author": "",

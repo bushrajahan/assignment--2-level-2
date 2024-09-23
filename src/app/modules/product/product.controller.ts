@@ -202,7 +202,7 @@ const searchProduct = async (req: Request, res: Response) => {
     return res.status(500).json({
       success: false,
       message: 'Server error',
-      error: err.message || 'Something went wrong', // Return detailed error message
+      error: err instanceof Error ? err.message : 'Unknown error',
     });
   }
 };

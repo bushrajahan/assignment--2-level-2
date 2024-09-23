@@ -1,0 +1,13 @@
+vercel 
+vercel CLI 
+  -install
+ before it check is there any error 
+ using tsc and eslint
+  first time 
+  npm i -g vercel 
+  vercel -v 
+  vercel login
+
+  if you are 
+
+  vercel --prod
