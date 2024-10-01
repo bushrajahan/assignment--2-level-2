@@ -7,3 +7,4 @@
 * To install project dependencies, run: npm install
 * Create a .env File :Add PORT and DATABASE_URL of your mongodb for database connection
 * Once everything is set up, start the server using the command:npm run start:dev
+* live link:https://assignmen-2level-2.vercel.app/
