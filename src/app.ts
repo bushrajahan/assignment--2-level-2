@@ -11,8 +11,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 // Application routes
-app.use('/api/v1', productRoute);
+app.use('/api/products', productRoute);
 app.use('/api/orders', OrderRouter);
+
+app.get('/', (req: Request, res: Response) => {
+    res.send('Hello World!');
+  });
 
 app.use((req, res) => {
   res.status(404).json({
@@ -21,8 +25,6 @@ app.use((req, res) => {
   });
 });
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('Hello World!');
-});
+
 
 export default app;

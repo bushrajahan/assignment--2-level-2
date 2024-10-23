@@ -7,10 +7,12 @@ const createOrderInDB = async (orderData: Order) => {
   try {
     const product = await ProductModel.findById(orderData.productId);
     if (!product) {
-      throw new Error('product is not found');
+     console.error('Product not found ');
+     return {error:'Product not found'}
     }
     if (product.inventory.quantity < orderData.quantity) {
-      throw new Error('insufficient stock');
+       console.error('Insufficient stock')
+       return{error:'Insufficient stock'}
     }
     product.inventory.quantity -= orderData.quantity;
 
@@ -20,7 +22,8 @@ const createOrderInDB = async (orderData: Order) => {
     const result = await OrderModel.create(orderData);
     return result;
   } catch (error: unknown) {
-    throw new Error('Error creating order: ' + error);
+    console.error('Error creating order',error);
+    return{error:'Error creating order'}
   }
 };
 
@@ -29,7 +32,13 @@ const getOrderFromDB = async () => {
   return result;
 };
 const getOrderByEmailFromDB = async (email: string) => {
-  const result = await OrderModel.find({ email }).exec();
+  let query = {};
+   //if email is porvided,set the query that filter based on email
+   if(email){
+    query = {email};
+   }
+   console.log(email)
+  const result = await OrderModel.find(query).exec();
   return result;
 };
 // Export the service
