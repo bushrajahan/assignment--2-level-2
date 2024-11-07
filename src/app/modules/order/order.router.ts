@@ -1,12 +1,14 @@
 import express from 'express';
-import { orderController } from './order.controller';
+import { neworderController } from './neworder.controller';
+
 
 const router = express.Router();
 
 // Route for creating an order
-router.post('/', orderController.createOrder);
+router.post('/', neworderController.createOrder);
 
-router.get('/', orderController.getOrder);
-router.get('/:email', orderController.getOrderUsingEmail);
+router.get('/', neworderController.getOrder);
+
+
 
 export const OrderRouter = router;

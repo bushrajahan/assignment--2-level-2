@@ -7,7 +7,6 @@
     "express-joi-validation": "^5.0.1",
     "mongodb": "^6.8.1",
     "mongoose": "^8.6.2",
-    "typescript": "^5.6.2",
     "zod": "^3.23.8"
   },
   "devDependencies": {
@@ -17,7 +16,8 @@
     "@typescript-eslint/eslint-plugin": "^8.6.0",
     "@typescript-eslint/parser": "^8.6.0",
     "eslint": "^8.57.1",
-    "prettier": "^3.3.3"
+    "prettier": "^3.3.3",
+    "typescript": "^5.6.3"
   },
   "name": "as2",
   "version": "1.0.0",
@@ -30,7 +30,7 @@
     "lint:fix": "npx eslint . --fix",
     "format": "prettier --ignore-path .gitignore --write \"./src**/*.+(js|ts|json)\"",
     "prettier:fix": "npx prettier --write src",
-    "build":"tsc"
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",

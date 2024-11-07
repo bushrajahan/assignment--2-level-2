@@ -15,7 +15,7 @@
         "@typescript-eslint"
     ],
     "rules": {
-        "no-unused-vars": "error",
-        "no-console":"warn"
+        "no-unused-vars": "error"
+    
     }
 }

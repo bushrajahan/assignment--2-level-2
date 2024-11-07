@@ -3,7 +3,7 @@ import { ProductModel } from '../product.model';
 import { Order } from './order.interface';
 
 // Service function to create a new order in the database
-const createOrderInDB = async (orderData: Order) => {
+const createOrderInDB = async <T=Order>(orderData: Order):Promise<T | {error:string}> => {
   try {
     const product = await ProductModel.findById(orderData.productId);
     if (!product) {
@@ -20,30 +20,26 @@ const createOrderInDB = async (orderData: Order) => {
     //save the products
     await product.save();
     const result = await OrderModel.create(orderData);
-    return result;
+    return result as unknown as T;
   } catch (error: unknown) {
     console.error('Error creating order',error);
     return{error:'Error creating order'}
   }
 };
 
-const getOrderFromDB = async () => {
-  const result = await OrderModel.find();
-  return result;
-};
-const getOrderByEmailFromDB = async (email: string) => {
-  let query = {};
-   //if email is porvided,set the query that filter based on email
-   if(email){
-    query = {email};
-   }
-   console.log(email)
-  const result = await OrderModel.find(query).exec();
-  return result;
-};
+const getOrderFromDB = async <T = Order[]>(email?: string): Promise<T> => {
+  try{
+   const orders = email? await OrderModel.find({email}).lean():await OrderModel.find().lean();
+    return orders as unknown as T;
+}catch(error){
+  console.error('Error fetching orders:', error);
+  return [] as unknown as T;
+}
+}
+
 // Export the service
 export const orderService = {
   createOrderInDB,
   getOrderFromDB,
-  getOrderByEmailFromDB,
+
 };
